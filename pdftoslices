@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mogrify -resize 1224x1500 -flatten -format jpg *.png
+rm *.png
+for f in *.jpg; do convert $f -crop 612x250 +repage $(basename -- "$f" .jpg)$i.jpg; done
+

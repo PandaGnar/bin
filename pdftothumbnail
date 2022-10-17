@@ -1,0 +1,13 @@
+#!/bin/bash
+# Call this one pdftothumbnail
+
+# Note that this script breaks when the arguments have escaped whitespaces.
+
+for FILE in $@
+do
+  FILE_ROOT=${FILE%.*}
+
+  echo creating $FILE_ROOT.png
+
+  convert -flatten -background white -colorspace sRGB -density 25x25 -format png "${FILE}"[0] "${FILE_ROOT}.png"
+done

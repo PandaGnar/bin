@@ -1,0 +1,6 @@
+# ~/.zshrc
+
+ip () {
+  ipconfig getifaddr $(networksetup -listallhardwareports | awk '/Hardware Port: Wi-Fi/{getline; print $2}')
+}
+

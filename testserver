@@ -1,0 +1,38 @@
+#!/bin/zsh
+# Dylan wrote this, not me.
+
+if [ "$1" ]; then
+else
+    echo 'Usage: testserver [server] [branch]\nserver is the domain name of the testserver, e.g. lizzietest.com\nbranch is optional and is the name of the git branch to checkout and then updates the server.\nIf branch is omitted, you will simply be logged into the testserver.';
+    return;
+fi
+
+if [ "$2" ]; then
+    echo 'WARNING: Do not use this command if your branch has new migrations.';
+    if read -q "choice?Press Y/y to confirm there are no new migrations: "; then
+        echo;
+        echo 'Proceeding...';
+else
+    echo;
+    echo 'Exiting...';
+    return;
+fi
+ssh -t -t -i ~/.ssh/BADeveloper.pem "ubuntu@$1" "
+        echo 'Logged into $1 ...';
+        cd /var/www/ba;
+        echo 'Checking out $2 ...';
+        sudo -u www-data git fetch;
+        sudo -u www-data git checkout $2;
+        echo 'Updating the server ...';
+        bash update-testserver-simple.sh;
+        echo 'Ready to use!';
+        bash
+    "
+else
+    ssh -t -t -i ~/.ssh/BADeveloper.pem "ubuntu@$1" "
+        echo 'Logged into $1 ...';
+        cd /var/www/ba;
+        echo 'Ready to use!';
+        bash
+    "
+fi

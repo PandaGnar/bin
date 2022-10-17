@@ -1,0 +1,19 @@
+#!/bin/bash
+# Call this one makecovers
+
+GRADE=$1
+
+if [[ ! -e "${GRADE}"-guide.jpg ]]; then
+  if [[ -e "${GRADE}"_cover.jpg ]]; then
+    cp "${GRADE}"_cover.jpg "${GRADE}"-guid.jpg
+  fi
+fi
+
+# sized colors
+convert -resize 80x104 "${GRADE}"-guide.jpg "${GRADE}"-guide-tiny.jpg
+convert -resize 209x272 "${GRADE}"-guide.jpg "${GRADE}"-guide-small.jpg
+convert -resize 320x416 "${GRADE}"-guide.jpg "${GRADE}"-guide-medium.jpg
+
+# blurry covers
+convert -quality 20 -blur 5x5 "${GRADE}"-guide-medium.jpg "${GRADE}"-guide-medium-blur.jpg
+
